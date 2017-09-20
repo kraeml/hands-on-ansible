@@ -13,9 +13,9 @@ for i in ais-bashy web1 web2 db playbooks; do
 	# Start container \ 
 	sudo lxc-start -n ${i} && \
 	# Prepare ais-bashy \
-	echo "Wait for comming up" && \
-	sleep 5
 	if [[ ${i} == "ais-bashy" ]]; then
+		echo "Wait for comming up"
+		sleep 5
 		# Get ip
 		ip=$(sudo lxc-ls --fancy | grep ${i} | cut -d '-' -f 3 | tr -d ' ')
 		# Remove host key for ip
