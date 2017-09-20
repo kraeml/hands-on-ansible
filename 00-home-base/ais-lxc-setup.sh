@@ -28,4 +28,5 @@ for i in ais-bashy web1 web2 db playbooks; do
 		ansible-playbook -i ${ip}, -u ubuntu -k --ask-sudo-pass ${prepare}
 	fi
 done
+sleep 3
 sudo lxc-ls --fancy
