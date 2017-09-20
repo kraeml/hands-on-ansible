@@ -25,7 +25,7 @@ for i in ais-bashy web1 web2 db playbooks; do
 		# Setup ssh-key for user
 		ansible -i localhost, -m shell -a 'ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N "" creates=~/.ssh/id_rsa' --connection=local localhost
 		# Run prepare playbook
-		ansible-playbook -i ${ip}, -u ubuntu -k --ask-sudo-pass ${prepare}
+		ansible-playbook -i ${ip}, -u ubuntu --ask-pass --ask-become-pass ${prepare}
 	fi
 done
 sleep 3
