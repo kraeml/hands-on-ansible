@@ -1,5 +1,5 @@
 #/bin/bash 
-set -x
+# set -x
 
 for i in ais-bashy web1 web2 db playbooks; do
 	sudo lxc-create -n ${i} -t ubuntu
@@ -14,7 +14,7 @@ for i in ais-bashy web1 web2 db playbooks; do
 		mkdir ~/.ssh || true
 		ssh-keyscan -H $ip >> ~/.ssh/known_hosts
 		echo ${ip}
-		ansible-playbook -i ${ip}, ../02-playbooks/00-simple-playbook-examples/prepare_ansible_target.yml -u ubuntu -k --ask-sudo-pass
+		echo "ubuntu\n\n" | ansible-playbook -i ${ip}, ../02-playbooks/00-simple-playbook-examples/prepare_ansible_target.yml -u ubuntu -k --ask-sudo-pass
 	fi
 done
 sudo lxc-ls --fancy
