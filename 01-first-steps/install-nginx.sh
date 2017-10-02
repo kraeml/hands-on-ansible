@@ -2,10 +2,13 @@
 set -euo pipefail
 
 # Working directory
+echo -n "Current working directory: "
 pwd
 # Change to script directory if no bash exit
+echo "Inhalt von BASH_SOURCE " ${BASH_SOURCE}
 cd "${BASH_SOURCE%/*}" || exit
 # Script directory now working directory 
+echo -n "Changed working directory: "
 pwd
 
 # Install nginx.
