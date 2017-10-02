@@ -1,7 +1,11 @@
 #!/bin/bash
 set -euo pipefail
+
+# Working directory
 pwd
-cd "${BASH_SOURCE%/*}" || exit 
+# Change to script directory if no bash exit
+cd "${BASH_SOURCE%/*}" || exit
+# Script directory now working directory 
 pwd
 
 # Install nginx.
@@ -12,16 +16,16 @@ apt-get install -y nginx sshguard nano curl # vim
 mkdir -p /var/www/mywebsite
 
 # Copy nginx config files (main config and vhost config)
-cp /tmp/config/nginx.conf /etc/nginx/nginx.conf
+cp ./config/nginx.conf /etc/nginx/nginx.conf
 chown root:root /etc/nginx/nginx.conf
 chmod 0644 /etc/nginx/nginx.conf
 
-cp /tmp/config/mywebsite.conf /etc/nginx/conf.d/mywebsite.conf
+cp ./config/mywebsite.conf /etc/nginx/conf.d/mywebsite.conf
 chown root:root /etc/nginx/conf.d/mywebsite.conf
 chmod 0644 /etc/nginx/conf.d/mywebsite.conf
 
 # Copy our website files
-cp /tmp/config/index.html /var/www/mywebsite/
+cp ./config/index.html /var/www/mywebsite/
 chown root:root /var/www/mywebsite/index.html
 chmod 0644 /var/www/mywebsite/index.html
 
@@ -29,8 +33,8 @@ chmod 0644 /var/www/mywebsite/index.html
 rm /etc/nginx/sites-enabled/default
 
 # Start nginx at boot + make sure it's running right now.
-systemctl restart nginx.service
-systemctl enabled nginx.service
+service nginx restart
+service nginx enable
 
 # On a machine with systemd, you'd use these instead
 # systemctl enable nginx
