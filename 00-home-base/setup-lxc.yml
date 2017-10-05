@@ -4,9 +4,14 @@
   gather_facts: no
 
   tasks:
+  - name: Update apt
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+      
   - name: Init AIS lxc containers
     expect:
-      command: /home/vagrant/ais/hands-on-ansible/00-home-base/ais-lxc-setup.sh
+      command: /home/vagrant/rdf/ais/hands-on-ansible/00-home-base/ais-lxc-setup.sh
       responses:
         (?i)password: "ubuntu"
       creates: /var/lib/lxc/ais-bashy
