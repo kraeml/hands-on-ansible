@@ -1,6 +1,16 @@
 #!/bin/bash
 set -euo pipefail
 
+# Working directory
+echo -n "Current working directory: "
+pwd
+# Change to script directory if no bash exit
+echo "Inhalt von BASH_SOURCE " ${BASH_SOURCE}
+cd "${BASH_SOURCE%/*}" || exit
+# Script directory now working directory 
+echo -n "Changed working directory: "
+pwd
+
 # Install nginx.
 apt-get update
 apt-get install -y nginx sshguard nano curl # vim
@@ -9,16 +19,16 @@ apt-get install -y nginx sshguard nano curl # vim
 mkdir -p /var/www/mywebsite
 
 # Copy nginx config files (main config and vhost config)
-cp config/nginx.conf /etc/nginx/nginx.conf
+cp ./config/nginx.conf /etc/nginx/nginx.conf
 chown root:root /etc/nginx/nginx.conf
 chmod 0644 /etc/nginx/nginx.conf
 
-cp config/mywebsite.conf /etc/nginx/conf.d/mywebsite.conf
+cp ./config/mywebsite.conf /etc/nginx/conf.d/mywebsite.conf
 chown root:root /etc/nginx/conf.d/mywebsite.conf
 chmod 0644 /etc/nginx/conf.d/mywebsite.conf
 
 # Copy our website files
-cp config/index.html /var/www/mywebsite/
+cp ./config/index.html /var/www/mywebsite/
 chown root:root /var/www/mywebsite/index.html
 chmod 0644 /var/www/mywebsite/index.html
 
@@ -32,7 +42,4 @@ service nginx enable
 # On a machine with systemd, you'd use these instead
 # systemctl enable nginx
 # systemctl restart nginx
-
-
-
 
