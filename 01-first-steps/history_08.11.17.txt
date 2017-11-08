@@ -1,0 +1,22 @@
+#Erstellen der ais-ansibly
+sudo lxc-create --template ubuntu --name ais-ansibly
+sudo lxc-update-config -c /var/lib/lxc/ais-ansibly/config
+sudo lxc-start --name bsa-ansibly
+sudo lxc-start --name ais-ansibly
+sudo lxc-ls --fancy
+ssh ubuntu@10.0.3.202
+
+#Auf ubuntu@ais-ansibly
+sudo -i
+
+#Auf root@ais-ansibly
+apt update
+apt install -y python
+ssh root@localhost
+vi .ssh/authorized_keys
+
+#Auf rdf-dev
+~/.ssh/id_rsa.pub 
+ssh root@10.0.3.231
+vi /etc/ansible/hosts
+ansible-playbook install-nginx.yml -u root
