@@ -5,7 +5,7 @@ import subprocess
 import re
 
 ANSIBLE_INV = {
-    "lxc_container": {
+    "lxc_containers": {
         "hosts": [],
         "vars": {
             "ansible_user": "ubuntu"
@@ -34,7 +34,7 @@ def all_lxc_ips():
             continue
         lxc_name = line.split(' ')[0]
         ip = re.findall( r'[0-9]+(?:\.[0-9]+){3}', line )
-        ANSIBLE_INV["lxc_container"]["hosts"].append(ip)
+        ANSIBLE_INV["lxc_containers"]["hosts"].append(ip)
         ANSIBLE_INV.setdefault(lxc_name, "0.0.0.0")
         ANSIBLE_INV[lxc_name]=ip
         print(ip)
