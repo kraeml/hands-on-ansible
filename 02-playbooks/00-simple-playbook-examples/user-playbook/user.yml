@@ -1,0 +1,98 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    gruppen:
+      familie: familie
+      erwachsene: erwachsene
+      finanzen: finanzen
+      rezepte: rezepte
+      kinder: kinder
+
+    users:
+      - login: vater
+        shell: /bin/csh
+        password: geheim2
+        gruppen:
+          - "{{gruppen.familie}}"
+          - "{{gruppen.erwachsene}}"
+          - "{{gruppen.finanzen}}"
+      - login: mutter
+        shell: /bin/bash
+        password: foo
+        gruppen:
+          - "{{gruppen.familie}}"
+          - "{{gruppen.erwachsene}}"
+          - "{{gruppen.finanzen}}"
+          - "{{gruppen.rezepte}}"
+      - login: tochter
+        shell: /bin/bash
+        password: bar
+        gruppen:
+          - "{{gruppen.familie}}"
+          - "{{gruppen.kinder}}"
+      - login: sohn
+        shell: /bin/sh
+        password: passw0rd
+        gruppen:
+          - "{{gruppen.familie}}"
+          - "{{gruppen.kinder}}"
+      - login: kindermaedchen
+        shell: /bin/sh
+        password: CaHrdf1618
+        gruppen:
+          - "{{gruppen.erwachsene}}"
+          - "{{gruppen.rezepte}}"
+      - login: gast
+        shell: /bin/bash
+        password: gast
+        gruppen: []
+    directories:
+      - path: familienfotos
+        mode: 3775
+        gruppe: "{{gruppen.familie}}"
+        owner: root
+      - path: gruselfilme
+        mode: 3770
+        gruppe: "{{gruppen.erwachsene}}"
+        owner: root
+      - path: finanzen
+        mode: 3770
+        gruppe: "{{gruppen.finanzen}}"
+        owner: root
+      - path: kochrezepte
+        mode: 3750
+        gruppe: "{{gruppen.rezepte}}"
+        owner: mutter
+      - path: zeichenfilme
+        mode: 3750
+        gruppe: "{{gruppen.kinder}}"
+        owner: kindermaedchen
+
+  tasks:
+  - name: Erstellen der Gruppen
+    group:
+      name: "{{item}}"
+    with_items:
+      "{{gruppen}}"
+
+  - name: Erstelle user
+    user:
+      name: "{{item['login']}}"
+      shell: "{{item.shell}}"
+      password: "{{item.password | password_hash('sha512')}}"
+      append: yes
+      groups: "{{item.gruppen}}"
+    with_items:
+      "{{users}}"
+    changed_when: False
+
+  - name: Erstelle Verzeichnisse
+    file:
+      path: "/var/{{item.path}}"
+      state: directory
+      owner: "{{item.owner}}"
+      group: "{{item.gruppe}}"
+      mode: "{{item.mode}}"
+    with_items:
+      "{{directories}}"

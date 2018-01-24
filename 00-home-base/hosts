@@ -1,0 +1,5 @@
+[AIS-BASHY]
+10.0.3.85	ansible_user=root
+
+[db]
+10.0.3.84	ansible_user=root
