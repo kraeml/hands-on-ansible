@@ -17,9 +17,9 @@ users = [
     'shell' => '/bin/csh',
     'password' => 'geheim2',
     'gruppen' => [
-      "gruppen.familie",
-      "gruppen.erwachsene",
-      "gruppen.finanzen"
+      gruppen['familie'],
+      gruppen['erwachsene'],
+      gruppen['finanzen']
     ]
   },
   {
@@ -27,10 +27,10 @@ users = [
     'shell' => '/bin/bash',
     'password' => 'foo',
     'gruppen' => [
-      "gruppen.familie",
-      "gruppen.erwachsene",
-      "gruppen.finanzen",
-      "gruppen.rezepte"
+      gruppen['familie'],
+      gruppen['erwachsene'],
+      gruppen['finanzen'],
+      gruppen['rezepte']
     ]
   },
   {
@@ -38,8 +38,8 @@ users = [
     'shell' => '/bin/bash',
     'password' => 'bar',
     'gruppen' => [
-      "gruppen.familie",
-      "gruppen.kinder"
+      gruppen['familie'],
+      gruppen['kinder']
     ]
   },
   {
@@ -47,8 +47,8 @@ users = [
     'shell' => '/bin/sh',
     'password' => 'passw0rd',
     'gruppen' => [
-      "gruppen.familie",
-      "gruppen.kinder"
+      gruppen['familie'],
+      gruppen['kinder']
     ]
   },
   {
@@ -56,8 +56,8 @@ users = [
     'shell' => '/bin/sh',
     'password' => 'CaHrdf1618',
     'gruppen' => [
-      "gruppen.erwachsene",
-      "gruppen.rezepte"
+      gruppen['erwachsene'],
+      gruppen['rezepte']
     ]
   },
   {
