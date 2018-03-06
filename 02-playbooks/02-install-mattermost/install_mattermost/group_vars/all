@@ -30,7 +30,7 @@ db_server: localhost
 # Database
 ####################################################
 # Postgres Version
-PG_VERSION: "9.3"
+PG_VERSION: "9.5"
 PG_HBA_CONF: /etc/postgresql/{{ PG_VERSION }}/main/pg_hba.conf
 PG_CONF: /etc/postgresql/{{ PG_VERSION }}/main/postgresql.conf
 
