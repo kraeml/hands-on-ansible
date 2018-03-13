@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Rainer Zufall
+  description: MySQL Database Role
+  company: RDF
+  min_ansible_version: 1.4
+  platforms:
+  - name: EL
+    versions:
+      - all
+  - name: Ubuntu
+    versions:
+      - all
+  categories:
+  - database:sql

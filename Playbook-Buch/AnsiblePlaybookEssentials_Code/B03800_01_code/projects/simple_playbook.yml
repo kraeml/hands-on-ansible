@@ -1,0 +1,21 @@
+---
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  tasks:
+  - group: name=devops state=present
+  - name: create devops user with admin previleges
+    user: name=devops comment="Devops User" uid=2001 group=devops
+  - name: install htop package
+    apt: name=htop state=present update_cache=yes
+
+- hosts: www
+  user: vagrant
+  become: yes
+  tasks:
+  - name: add official nginx repository
+    apt_repository: repo='ppa:nginx/stable'
+  - name: install nginx web server and ensure its at the latest version
+    apt: name=nginx state=latest
+  - name:
+    service: name=nginx state=started

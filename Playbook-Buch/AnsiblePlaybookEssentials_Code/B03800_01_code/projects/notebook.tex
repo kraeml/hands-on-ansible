@@ -1,0 +1,658 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{01\_Playbooks}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{YAML Dateien}\label{yaml-dateien}
+
+\begin{itemize}
+\tightlist
+\item
+  Die erste Zeile eines Playbooks sollte mit "-\/-\/-" beginnen (drei
+  Bindestriche). Diese zeigt den Beginn eines YAML-Dokumentes an.
+\item
+  Listen in YAML werden mit einem Bindestrich "-" gefolgt von einem
+  Leerraum dargestellt.
+\item
+  Ein Playbook enthält eine Liste von Spielanweisungen; Sie werden mit
+  "-" dargestellt. Jedes Spiel ist ein assoziatives Array, ein Dictonary
+  oder eine Map in Form von Schlüssel/Wert-Paaren.
+\item
+  Einrückungen sind wichtig. Alle Mitglieder einer Liste sollten gleich
+  Eingerückt sein.
+\item
+  Jede Spielanwiesung kann Schlüssel-Wert-Paare enthalten, getrennt
+  durch ":", um Hosts, Variablen, Rollen, Aufgaben und so weiter
+  anzugeben.
+\end{itemize}
+
+\subsection{Weblinks}\label{weblinks}
+
+\begin{itemize}
+\tightlist
+\item
+  https://de.wikipedia.org/wiki/YAML
+\item
+  http://www.yaml.org/
+\item
+  http://docs.ansible.com/ansible/YAMLSyntax.html
+\end{itemize}
+
+\subsection{Playbooks}\label{playbooks}
+
+simple\_playbook.yml
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{---}
+\KeywordTok{-} \FunctionTok{hosts:} \NormalTok{all}
+  \FunctionTok{remote_user:} \NormalTok{vagrant}
+  \FunctionTok{become:} \NormalTok{yes}
+  \FunctionTok{tasks:}
+  \KeywordTok{-} \FunctionTok{group:} \NormalTok{name=devops state=present}
+  \KeywordTok{-} \FunctionTok{name:} \NormalTok{create devops user with admin previleges}
+    \FunctionTok{user:} \NormalTok{name=devops comment="Devops User" uid=2001 group=devops}
+  \KeywordTok{-} \FunctionTok{name:} \NormalTok{install htop package}
+    \FunctionTok{apt:} \NormalTok{name=htop state=present update_cache=yes}
+
+\KeywordTok{-} \FunctionTok{hosts:} \NormalTok{www}
+  \FunctionTok{user:} \NormalTok{vagrant}
+  \FunctionTok{become:} \NormalTok{yes}
+  \FunctionTok{tasks:}
+  \KeywordTok{-} \FunctionTok{name:} \NormalTok{add official nginx repository}
+    \FunctionTok{apt_repository:} \NormalTok{repo='ppa:nginx/stable'}
+  \KeywordTok{-} \FunctionTok{name:} \NormalTok{install nginx web server and ensure its at the latest version}
+    \FunctionTok{apt:} \NormalTok{name=nginx state=latest}
+  \KeywordTok{-} \FunctionTok{name:}
+    \FunctionTok{service:} \NormalTok{name=nginx state=started}
+\end{Highlighting}
+\end{Shaded}
+
+Alternativ
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OtherTok{---}
+\KeywordTok{-} \FunctionTok{hosts:} \NormalTok{all}
+  \FunctionTok{remote_user:} \NormalTok{vagrant}
+  \FunctionTok{become:} \NormalTok{yes}
+  \FunctionTok{tasks:}
+  \KeywordTok{-} \FunctionTok{group:}
+      \FunctionTok{name:} \NormalTok{devops}
+      \FunctionTok{state:} \NormalTok{present}
+  \KeywordTok{-} \FunctionTok{name:} \NormalTok{create devops user with admin previleges}
+    \FunctionTok{user:}
+      \FunctionTok{name:} \NormalTok{devops}
+      \FunctionTok{comment:} \StringTok{"Devops User"}
+      \FunctionTok{uid:} \NormalTok{2001}
+      \FunctionTok{group:} \NormalTok{devops}
+  \KeywordTok{-} \FunctionTok{name:} \NormalTok{install htop package}
+    \FunctionTok{apt:}
+      \FunctionTok{name:} \NormalTok{htop}
+      \FunctionTok{state:} \NormalTok{present}
+      \FunctionTok{update_cache:} \NormalTok{yes}
+
+\KeywordTok{-} \FunctionTok{hosts:} \NormalTok{www}
+  \FunctionTok{user:} \NormalTok{vagrant}
+  \FunctionTok{become:} \NormalTok{yes}
+  \FunctionTok{tasks:}
+  \KeywordTok{-} \FunctionTok{name:} \NormalTok{add official nginx repository}
+    \FunctionTok{apt_repository:}
+      \FunctionTok{repo:} \StringTok{'ppa:nginx/stable'}
+  \KeywordTok{-} \FunctionTok{name:} \NormalTok{install nginx web server and ensure its at the latest version}
+    \FunctionTok{apt:}
+      \FunctionTok{name:} \NormalTok{nginx}
+      \FunctionTok{state:} \NormalTok{latest}
+  \KeywordTok{-} \FunctionTok{name:}
+    \FunctionTok{service:}
+      \FunctionTok{name:} \NormalTok{nginx}
+      \FunctionTok{state:} \NormalTok{started}
+\end{Highlighting}
+\end{Shaded}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} cp /vagrant/simple\PYZus{}playbook.yml ./
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{n+nb}{eval} \PY{l+s+sb}{`}ssh\PYZhy{}agent \PYZhy{}s\PY{l+s+sb}{`} \PYZgt{} /dev/null
+        ./ssh\PYZhy{}add\PYZhy{}passphrase.sh
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+Enter passphrase for /home/vagrant/.ssh/id\_rsa: 
+Identity added: /home/vagrant/.ssh/id\_rsa (/home/vagrant/.ssh/id\_rsa)
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} ansible\PYZhy{}playbook simple\PYZus{}playbook.yml
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+PLAY [all] *********************************************************************
+
+TASK [setup] *******************************************************************
+ok: [192.168.60.21]
+ok: [192.168.60.11]
+ok: [192.168.60.2]
+ok: [192.168.60.12]
+ok: [192.168.60.22]
+ok: [localhost]
+ok: [192.168.60.13]
+
+TASK [group] *******************************************************************
+changed: [192.168.60.21]
+changed: [192.168.60.2]
+changed: [192.168.60.12]
+changed: [192.168.60.22]
+changed: [192.168.60.11]
+changed: [localhost]
+changed: [192.168.60.13]
+
+TASK [create devops user with admin previleges] ********************************
+changed: [192.168.60.22]
+changed: [192.168.60.11]
+changed: [192.168.60.12]
+changed: [192.168.60.2]
+changed: [192.168.60.21]
+changed: [192.168.60.13]
+changed: [localhost]
+
+TASK [install htop package] ****************************************************
+ok: [192.168.60.22]
+ok: [192.168.60.2]
+ok: [192.168.60.11]
+ok: [192.168.60.12]
+ok: [192.168.60.21]
+ok: [192.168.60.13]
+ok: [localhost]
+
+PLAY [www] *********************************************************************
+
+TASK [setup] *******************************************************************
+ok: [192.168.60.11]
+ok: [192.168.60.13]
+ok: [192.168.60.12]
+
+TASK [add official nginx repository] *******************************************
+ok: [192.168.60.13]
+ok: [192.168.60.12]
+ok: [192.168.60.11]
+
+TASK [install nginx web server and ensure its at the latest version] ***********
+changed: [192.168.60.11]
+changed: [192.168.60.12]
+changed: [192.168.60.13]
+
+TASK [service] *****************************************************************
+ok: [192.168.60.11]
+ok: [192.168.60.13]
+ok: [192.168.60.12]
+
+PLAY RECAP *********************************************************************
+192.168.60.11              : ok=8    changed=3    unreachable=0    failed=0   
+192.168.60.12              : ok=8    changed=3    unreachable=0    failed=0   
+192.168.60.13              : ok=8    changed=3    unreachable=0    failed=0   
+192.168.60.2               : ok=4    changed=2    unreachable=0    failed=0   
+192.168.60.21              : ok=4    changed=2    unreachable=0    failed=0   
+192.168.60.22              : ok=4    changed=2    unreachable=0    failed=0   
+localhost                  : ok=4    changed=2    unreachable=0    failed=0   
+
+
+    \end{Verbatim}
+
+    \subsection{Playbooks}\label{playbooks}
+
+Wichtige Abschnitte der obigen Playbooks sind:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Wer soll wie konfiguriert werden (hosts).
+\item
+  Was soll ablaufen (tasks).
+\end{enumerate}
+
+\subsection{Pattern für hosts}\label{pattern-fuxfcr-hosts}
+
+Im vorherigen Playbook bestimmen die folgenden Zeilen, welche Hosts für
+einen Play/Spiel ausgewählt werden sollen. Eine bestimmte Spielanweisung
+für:
+
+\begin{itemize}
+\tightlist
+\item
+  hosts: all
+\item
+  hosts: www
+\end{itemize}
+
+Der erste Block wird mit allen Hosts ausgeführt. Der zweite
+Abschnitt/Play wird mit der www-Gruppe durchgeführt.
+
+Die Pattern können eine der folgenden Liste, oder ihre Kobinationen,
+sein:
+
+\begin{verbatim}
+Pattern               Beispiele
+Gruppenname           Name_der_Rechner (ansible inventory)
+Spiel alle            all oder *
+Range                 Name_des_Rechner[0:100]
+Hostnamen globs       *.example.com, host01.example.com
+Ausnahmen             Name_der_Rechner:!diesen_nicht
+Überschneidung        Name_der_Rechner:&weitere_Namen
+Reguläre Ausdrücke    ~(nn|zk).*\.example\.org
+\end{verbatim}
+
+\subsection{Der Block Tasks}\label{der-block-tasks}
+
+Die Aufgaben für eine Gruppe (hosts). Aufgaben sind eine Folge von
+Aktionen, die gegen eine Gruppe von Hosts ausgeführt werden. Jedes Play
+enthält in der Regel mehrere Tasks, die seriell auf jeder Maschine
+ausgeführt werden, die dem Muster entspricht.
+
+Jede Aktion in einer Aufgabenliste kann deklariert werden, indem
+Folgendes angegeben wird:
+
+\begin{itemize}
+\tightlist
+\item
+  Der Name des Moduls
+\item
+  Optional der Zustand der verwalteten Systemkomponente
+\item
+  Die optionalen Parameter
+\end{itemize}
+
+\subsection{Module}\label{module}
+
+Module sind die gekapselten Prozeduren, die spezifischen
+Systemkomponenten für bestimmten Plattformen verwalten z. B. apt, user
+oder service.
+
+http://docs.ansible.com/ansible/list\_of\_all\_modules.html
+
+Nichts gefunden? Dann selber schreiben:
+
+http://docs.ansible.com/ansible/developing\_modules.html
+
+\subsection{Module und Idempotence}\label{module-und-idempotence}
+
+Aus der Wikipedia (10/2016) "Analog dazu wird in der Informatik ein
+Stück Programmcode, das mehrfach hintereinander ausgeführt das gleiche
+Ergebnis wie bei einer einzigen Ausführung liefert, als idempotent
+bezeichnet."
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} ansible\PYZhy{}playbook simple\PYZus{}playbook.yml
+\end{Verbatim}
+
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+PLAY [all] *********************************************************************
+
+TASK [setup] *******************************************************************
+ok: [192.168.60.12]
+ok: [192.168.60.11]
+ok: [192.168.60.21]
+ok: [192.168.60.2]
+ok: [192.168.60.22]
+ok: [192.168.60.13]
+ok: [localhost]
+
+TASK [group] *******************************************************************
+ok: [192.168.60.2]
+ok: [192.168.60.12]
+ok: [192.168.60.21]
+ok: [192.168.60.22]
+ok: [192.168.60.11]
+ok: [localhost]
+ok: [192.168.60.13]
+
+TASK [create devops user with admin previleges] ********************************
+ok: [192.168.60.21]
+ok: [192.168.60.2]
+ok: [192.168.60.12]
+ok: [192.168.60.22]
+ok: [192.168.60.11]
+ok: [192.168.60.13]
+ok: [localhost]
+
+TASK [install htop package] ****************************************************
+ok: [192.168.60.21]
+ok: [192.168.60.2]
+ok: [192.168.60.11]
+ok: [192.168.60.12]
+ok: [192.168.60.22]
+ok: [localhost]
+ok: [192.168.60.13]
+
+PLAY [www] *********************************************************************
+
+TASK [setup] *******************************************************************
+ok: [192.168.60.13]
+ok: [192.168.60.11]
+ok: [192.168.60.12]
+
+TASK [add official nginx repository] *******************************************
+ok: [192.168.60.11]
+ok: [192.168.60.13]
+ok: [192.168.60.12]
+
+TASK [install nginx web server and ensure its at the latest version] ***********
+ok: [192.168.60.12]
+ok: [192.168.60.11]
+ok: [192.168.60.13]
+
+TASK [service] *****************************************************************
+ok: [192.168.60.11]
+ok: [192.168.60.12]
+ok: [192.168.60.13]
+
+PLAY RECAP *********************************************************************
+192.168.60.11              : ok=8    changed=0    unreachable=0    failed=0   
+192.168.60.12              : ok=8    changed=0    unreachable=0    failed=0   
+192.168.60.13              : ok=8    changed=0    unreachable=0    failed=0   
+192.168.60.2               : ok=4    changed=0    unreachable=0    failed=0   
+192.168.60.21              : ok=4    changed=0    unreachable=0    failed=0   
+192.168.60.22              : ok=4    changed=0    unreachable=0    failed=0   
+localhost                  : ok=4    changed=0    unreachable=0    failed=0   
+
+
+    \end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}

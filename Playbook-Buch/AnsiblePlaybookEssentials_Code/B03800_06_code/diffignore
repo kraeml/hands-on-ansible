@@ -1,0 +1,11 @@
+Makefile
+*.diff
+itory
+*.md
+Wordpress.*
+*.md
+texput.log
+.vagrant
+*meta*
+*.diff
+*~

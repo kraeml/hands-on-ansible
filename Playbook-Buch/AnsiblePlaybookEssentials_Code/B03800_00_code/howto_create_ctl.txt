@@ -1,0 +1,17 @@
+vagrant init kraeml/xenial-64-de
+vagrant up
+vagrant ssh
+vagrant status
+vagrant halt
+vagrant package --base B03800_00_code_default_1474268852774_82118 package.box
+vagrant box add ubuntu64-ansible package.box
+mkdir test
+cd test/
+vagrant init ubuntu64-ansible
+vagrant up
+history
+vagrant ssh
+vagrant destroy --force
+cd ..
+rm -rf test/
+history >> howto_create_ctl.txt

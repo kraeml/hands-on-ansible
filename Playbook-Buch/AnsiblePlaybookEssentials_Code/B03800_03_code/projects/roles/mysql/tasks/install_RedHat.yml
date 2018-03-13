@@ -1,0 +1,9 @@
+---
+# filename: roles/mysql/tasks/install_RedHat.yml
+- name: install mysql server
+  yum:
+    name: "{{ mysql_pkg }}"
+
+- name: install libselinux-python
+  yum:
+    name: "libselinux-python"

@@ -1,0 +1,7 @@
+---
+  - hosts: ctl
+    become: yes
+
+    roles:
+      - serverspec
+      - ssh_key

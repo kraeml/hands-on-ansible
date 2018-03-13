@@ -1,0 +1,35 @@
+#
+# test_dir_top:
+#   test_dir_second_1:
+#     - ssh-access-host-or-symbol
+#     - :
+#   role_dir_second_2:
+#     - :
+#   :
+# test_dir_hierarchies:
+# :
+# ---
+# ssh-access-host-or-symbol:
+#   host: xxx.xxx.xxx.xxx
+#
+
+example:
+  - ctl
+  - web1
+  - web2
+  - web3
+
+www:
+  - web1
+---
+ctl:
+  host:        127.0.0.1
+
+web1:
+  host:        192.168.60.11
+
+web2:
+  host:        192.168.60.12
+
+web3:
+  host:        192.168.60.13

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="die-wordpress-rolle">Die Wordpress Rolle</h1>
+<p>Erstellt mit</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">ansible-galaxy</span> init --init-path projects/roles wordpress</code></pre></div>
+<h2 id="verzeichnisstruktur">Verzeichnisstruktur</h2>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">projects/roles/wordpress/</span>
+￼
+├── <span class="kw">defaults</span>
+│   └── <span class="kw">main.yml</span>
+├── <span class="kw">handlers</span>
+│   └── <span class="kw">main.yml</span>
+├── <span class="kw">meta</span>
+│   └── <span class="kw">main.yml</span>
+├── <span class="kw">README.md</span>
+├── <span class="kw">tasks</span>
+│   ├── <span class="kw">configure.yml</span>
+│   ├── <span class="kw">install.yml</span>
+│   └── <span class="kw">main.yml</span>
+├── <span class="kw">templates</span>
+│   └── <span class="kw">wp-config.php.j2</span>
+└── <span class="kw">vars</span>
+    └── <span class="kw">main.yml</span>
+
+<span class="kw">6</span> directories, 9 files</code></pre></div>
+<h2 id="defaults">defaults/</h2>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="ot">---</span>
+<span class="co"># defaults file for wordpress</span>
+<span class="fu">wp_srcdir:</span> /usr/local/src
+<span class="fu">wp_docroot:</span> /var/www
+<span class="fu">wp_sitedir:</span> fifanews
+<span class="fu">wp_user:</span> nginx
+<span class="fu">wp_group:</span> nginx
+<span class="fu">wp_dbname:</span> fifanews
+<span class="fu">wp_dbuser:</span> fifa
+<span class="fu">wp_dbpass:</span> supersecure1234
+<span class="fu">wp_dbhost:</span> 192.168.61.11</code></pre></div>
+<h2 id="tasks">tasks</h2>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="ot">---</span>
+<span class="co"># tasks file for wordpress</span>
+<span class="co"># filename: roles/wordpress/tasks/main.yml</span>
+<span class="kw">-</span> <span class="fu">include:</span> install.yml
+<span class="kw">-</span> <span class="fu">include:</span> configure.yml</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="ot">---</span>
+  <span class="co"># filename: roles/wordpress/tasks/install.yml</span>
+  <span class="kw">-</span> <span class="fu">name:</span> download wordpress
+    <span class="co"># Zur Demo von command und register.</span>
+    <span class="co"># Besser das Modul get_url verwenden</span>
+    <span class="fu">command:</span> /usr/bin/wget -c https://wordpress.org/latest.tar.gz
+    <span class="fu">args:</span>
+      <span class="fu">chdir:</span> <span class="st">&quot;{{ wp_srcdir }}&quot;</span>
+      <span class="co"># Hier creates</span>
+      <span class="co"># Der Key removes gibt es auch noch</span>
+      <span class="co"># Falls das Kommado keine Datei erstellen sollte, dann</span>
+      <span class="co"># selber eine Flag-Datei erzeugen lassen.</span>
+      <span class="fu">creates:</span> <span class="st">&quot;{{ wp_srcdir }}/latest.tar.gz&quot;</span>
+      <span class="co"># Der Status von command wird gespeichert</span>
+      <span class="co"># •    changed: This shows the status of whether the state was changed</span>
+      <span class="co"># •    cmd: Through this, the command sequence is launched</span>
+      <span class="co"># •    rc: This refers to the return code</span>
+      <span class="co"># •    stdout: This is the output of the command</span>
+      <span class="co"># •    stdout_lines: This is the output line by line</span>
+      <span class="co"># •    stderr: These state the errors, if any</span>
+    <span class="fu">register:</span> wp_download
+
+  <span class="kw">-</span> <span class="fu">name:</span> create nginx docroot
+    <span class="fu">file:</span>
+      <span class="fu">path:</span> <span class="st">&quot;{{ wp_docroot }}&quot;</span>
+      <span class="fu">state:</span> directory
+      <span class="fu">owner:</span> <span class="st">&quot;{{ wp_user }}&quot;</span>
+      <span class="fu">group:</span> <span class="st">&quot;{{ wp_group }}&quot;</span>
+
+  <span class="kw">-</span> <span class="fu">name:</span> extract wordpress
+    <span class="co"># Shell Modul wegen der &amp;&amp; Verknüpfung</span>
+    <span class="fu">shell:</span> <span class="st">&quot;tar xzf latest.tar.gz &amp;&amp; mv wordpress {{ wp_docroot }}/{{ wp_sitedir }}&quot;</span>
+    <span class="fu">args:</span>
+      <span class="fu">chdir:</span> <span class="st">&quot;{{ wp_srcdir }}&quot;</span>
+      <span class="fu">creates:</span> <span class="st">&quot;{{ wp_docroot }}/{{ wp_sitedir }}&quot;</span>
+      <span class="co"># Nur wenn Download erfolgreich war</span>
+      <span class="fu">when:</span> wp_download.rc == 0</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="ot">---</span>
+  <span class="co"># filename: roles/wordpress/tasks/configure.yml</span>
+  <span class="kw">-</span> <span class="fu">name:</span> change permissions for wordpress site
+    <span class="co"># Sets permissions for all WordPress files recursively.</span>
+    <span class="fu">file:</span>
+      <span class="fu">path:</span> <span class="st">&quot;{{ wp_docroot }}/{{ wp_sitedir }}&quot;</span>
+      <span class="fu">state:</span> directory
+      <span class="fu">owner:</span> <span class="st">&quot;{{ wp_user }}&quot;</span>
+      <span class="fu">group:</span> <span class="st">&quot;{{ wp_group }}&quot;</span>
+      <span class="fu">recurse:</span> true
+
+  <span class="kw">-</span> <span class="fu">name:</span> get unique salt for wordpress
+    <span class="co"># runs a command locally and registers the results in the</span>
+    <span class="co"># wp_salt variable. This is to provide WordPress with secret keys for</span>
+    <span class="co"># additional security. This variable will be used inside a template this time.</span>
+    <span class="fu">local_action:</span> command curl https://api.wordpress.org/secret-key/1.1/salt
+    <span class="fu">register:</span> wp_salt
+
+  <span class="kw">-</span> <span class="fu">name:</span> copy wordpress template
+    <span class="co"># generate a Jinja2 template and copy it over to the target</span>
+    <span class="co"># host as the wp-config.php file.</span>
+    <span class="fu">template:</span>
+      <span class="fu">src:</span> wp-config.php.j2
+      <span class="fu">dest:</span> <span class="st">&quot;{{ wp_docroot }}/{{ wp_sitedir }}/wp-config.php&quot;</span>
+      <span class="fu">mode:</span> 0644</code></pre></div>
+<h2 id="templates">templates</h2>
+<pre><code>&lt;?php
+define(&#39;DB_NAME&#39;, &#39;wp_dbname&#39;);
+define(&#39;DB_USER&#39;, &#39;wp_dbuser&#39;);
+define(&#39;DB_PASSWORD&#39;, &#39;{{ wp_dbpass }}&#39;);
+define(&#39;DB_HOST&#39;, &#39;{{ wp_dbhost }}&#39;);
+define(&#39;DB_CHARSET&#39;, &#39;utf8&#39;);
+define(&#39;DB_COLLATE&#39;, &#39;&#39;);
+{{ wp_salt.stdout }}
+$table_prefix  = &#39;wp_&#39;;
+define(&#39;WP_DEBUG&#39;, false);
+if ( !defined(&#39;ABSPATH&#39;) )
+        define(&#39;ABSPATH&#39;, dirname(__FILE__) . &#39;/&#39;);
+require_once(ABSPATH . &#39;wp-settings.php&#39;);</code></pre>
+</body>
+</html>

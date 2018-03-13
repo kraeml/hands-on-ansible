@@ -1,0 +1,16 @@
+---
+  - name: Pakete installieren
+    apt:
+       name: '{{ item }}'
+    with_items:
+      - ruby2.3*
+      - rake
+
+  - name: Gem Pakete installieren
+    gem:
+      name: '{{ item }}'
+      state: latest
+    with_items:
+      - rake
+      - serverspec
+      - serverspec-runner

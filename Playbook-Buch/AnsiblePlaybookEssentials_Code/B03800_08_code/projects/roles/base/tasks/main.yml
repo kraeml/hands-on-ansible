@@ -1,0 +1,17 @@
+---
+# essential tasks. should run on all nodes
+ - name: creating devops group
+   group: name=devops state=present
+ - name: create devops user with admin previleges
+   user: name=devops comment="Devops User" uid=2001 group=devops
+ - name: install htop package
+   action: apt name=htop state=present update_cache=yes
+   when: ansible_os_family == 'Debian'
+
+# - name: install htop package
+#   action: yum name=htop state=present update_cache=yes
+#   when: ansible_os_family == 'RedHat'
+
+ - name: set cluster id
+   set_fact:
+     cluster: "{{ cluster }}"

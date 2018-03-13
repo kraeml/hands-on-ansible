@@ -1,0 +1,14 @@
+[local]
+localhost     ansible_connection=local
+
+[www]
+192.168.60.11 ansible_ssh_user=vagrant
+192.168.60.12 ansible_ssh_user=vagrant
+192.168.60.13 ansible_ssh_user=vagrant
+
+[lb]
+192.168.60.2 ansible_ssh_user=vagrant
+
+[db]
+192.168.60.21 ansible_ssh_user=vagrant
+192.168.60.22 ansible_ssh_user=vagrant

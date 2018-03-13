@@ -1,0 +1,13 @@
+---
+# RedHat Specific Configs.
+# roles/mysql/vars/RedHat.yml
+mysql:
+  config:
+    socket: /var/lib/mysql/mysql.sock
+    cnfpath: /etc/my.cnf
+    bind: 0.0.0.0
+  pkg:
+    server: mariadb-server
+    client: mariadb-client
+    python: MySQL-python
+  service: mariadb

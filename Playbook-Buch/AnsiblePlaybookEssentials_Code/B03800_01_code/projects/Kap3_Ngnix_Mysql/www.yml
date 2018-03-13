@@ -1,0 +1,9 @@
+---
+- hosts: www
+  remote_user: vagrant
+  become: yes
+
+  roles:
+     - nginx
+     - wordpress
+  

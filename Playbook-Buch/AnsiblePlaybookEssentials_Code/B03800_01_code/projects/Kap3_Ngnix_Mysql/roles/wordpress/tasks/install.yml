@@ -1,0 +1,37 @@
+---
+  # filename: roles/wordpress/tasks/install.yml
+  - name: download wordpress
+    # Zur Demo von command und register.
+    # Besser das Modul get_url verwenden
+    command: /usr/bin/wget -c https://wordpress.org/latest.tar.gz
+    args:
+      chdir: "{{ wp_srcdir }}"
+      # Hier creates
+      # Der Key removes gibt es auch noch
+      # Falls das Kommado keine Datei erstellen sollte, dann
+      # selber eine Flag-Datei erzeugen lassen.
+      creates: "{{ wp_srcdir }}/latest.tar.gz"
+      # Der Status von command wird gespeichert
+      # •	 changed: This shows the status of whether the state was changed
+      # •	 cmd: Through this, the command sequence is launched
+      # •	 rc: This refers to the return code
+      # •	 stdout: This is the output of the command
+      # •	 stdout_lines: This is the output line by line
+      # •	 stderr: These state the errors, if any
+    register: wp_download
+
+  - name: create nginx docroot
+    file:
+      path: "{{ wp_docroot }}"
+      state: directory
+      owner: "{{ wp_user }}"
+      group: "{{ wp_group }}"
+
+  - name: extract wordpress
+    # Shell Modul wegen der && Verknüpfung
+    shell: "tar xzf latest.tar.gz && mv wordpress {{ wp_docroot }}/{{ wp_sitedir }}"
+    args:
+      chdir: "{{ wp_srcdir }}"
+      creates: "{{ wp_docroot }}/{{ wp_sitedir }}"
+      # Nur wenn Download erfolgreich war
+    when: wp_download.rc == 0

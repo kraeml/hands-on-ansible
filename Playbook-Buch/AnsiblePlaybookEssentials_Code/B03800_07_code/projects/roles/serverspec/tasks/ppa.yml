@@ -1,0 +1,7 @@
+---
+  - name: PPA hinzufügen
+    apt_repository:
+      update-cache: yes
+      repo: '{{ item }}'
+    with_items:
+      - ppa:brightbox/ruby-ng

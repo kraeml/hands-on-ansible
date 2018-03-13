@@ -1,0 +1,17 @@
+#filename: roles/php5-fpm/tasks/install.yml
+#  - name: Add an Apt signing key,
+#    apt_key:
+#      id: B12D0447319F1ADB
+#      url: https://sektioneins.de/files/repository.asc
+#      state: present
+
+#  - name: /etc/apt/sources.list for Ubuntu trusty (stable) (amd64 only)
+#    apt_repository:
+#      repo: 'deb http://repo.suhosin.org/ ubuntu-trusty main'
+
+  - name: install php5-fpm and family
+    apt:
+      name: "{{ item }}"
+    with_items: php5.packages
+    notify:
+     - restart php5-fpm service

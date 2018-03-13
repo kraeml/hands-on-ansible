@@ -1,0 +1,56 @@
+description,result
+example@ctl(127.0.0.1),"",1
+"  User ""root""","",1
+    should exist,OK,2
+    should have uid 0,OK,2
+"    should have home directory ""/root""",OK,2
+"  Group ""root""","",1
+    should have gid 0,OK,2
+  Filesystem,"",1
+"    File ""/""","",2
+      should be mounted,OK,3
+"  Host ""www.google.com""","",1
+    should be resolvable,OK,2
+    should be reachable,OK,2
+example@web1(192.168.60.11),"",1
+"  User ""root""","",1
+    should exist,OK,2
+    should have uid 0,OK,2
+"    should have home directory ""/root""",OK,2
+"  Group ""root""","",1
+    should have gid 0,OK,2
+  Filesystem,"",1
+"    File ""/""","",2
+      should be mounted,OK,3
+"  Host ""www.google.com""","",1
+    should be resolvable,OK,2
+    should be reachable,OK,2
+example@web2(192.168.60.12),"",1
+"  User ""root""","",1
+    should exist,OK,2
+    should have uid 0,OK,2
+"    should have home directory ""/root""",OK,2
+"  Group ""root""","",1
+    should have gid 0,OK,2
+  Filesystem,"",1
+"    File ""/""","",2
+      should be mounted,OK,3
+"  Host ""www.google.com""","",1
+    should be resolvable,OK,2
+    should be reachable,OK,2
+example@web3(192.168.60.13),"",1
+"  User ""root""","",1
+    should exist,OK,2
+    should have uid 0,OK,2
+"    should have home directory ""/root""",OK,2
+"  Group ""root""","",1
+    should have gid 0,OK,2
+  Filesystem,"",1
+"    File ""/""","",2
+      should be mounted,OK,3
+"  Host ""www.google.com""","",1
+    should be resolvable,OK,2
+    should be reachable,OK,2
+www@web1(192.168.60.11),"",1
+"  Package ""nginx""","",1
+    should be installed,OK,2

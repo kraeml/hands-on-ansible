@@ -1,0 +1,88 @@
+diff -uNr -X ./diffignore ../B03800_08_code/diffignore ./diffignore
+--- ../B03800_08_code/diffignore	2016-04-18 16:51:10.722642742 +0200
++++ ./diffignore	2016-04-18 17:00:29.942628083 +0200
+@@ -9,3 +9,4 @@
+ *meta*
+ *.diff
+ *~
++*.pdf
+diff -uNr -X ./diffignore ../B03800_08_code/projects/aws_creds.yml ./projects/aws_creds.yml
+--- ../B03800_08_code/projects/aws_creds.yml	2016-04-11 20:47:33.208187856 +0200
++++ ./projects/aws_creds.yml	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-$ANSIBLE_VAULT;1.1;AES256
+-30346239616537373261633165373666386264613239643064656434333364353238643532666238
+-3034623264333631336430633965656637663365663937630a353463326261653031613661653636
+-32386266613733303936623861613731386162316435386533363636336430616637303236353136
+-6166386661653434310a333539356139633433613532303033656430636235343932613230643765
+-33356130356666663661636538306631633436366265386363373130323836316637616663303437
+-35363438393862343736303734643433623432323132343566316366386561393861336562636263
+-64336539393637303262643036363931356631653430663133366632653433386335616539353232
+-64393166356162633732353362343263623630366337396165343135383535326230356532613463
+-64613836306433633762353635616536346636646538326363376565383163666335
+diff -uNr -X ./diffignore ../B03800_08_code/projects/environments/dev ./projects/environments/dev
+--- ../B03800_08_code/projects/environments/dev	1970-01-01 01:00:00.000000000 +0100
++++ ./projects/environments/dev	2016-04-11 20:47:33.008187849 +0200
+@@ -0,0 +1,17 @@
++#customhosts
++#inventory configs for my cluster
++[db]
++192.168.60.21 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/vagrant/insecure_private_key
++#192.168.60.22 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/vagrant/insecure_private_key
++[www]
++192.168.61.11 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/vagrant/insecure_private_key
++#192.168.61.12 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/vagrant/insecure_private_key
++#192.168.61.13 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/vagrant/insecure_private_key
++
++[lb]
++192.168.60.2 ansible_ssh_user=vagrant ansible_ssh_private_key_file=/vagrant/insecure_private_key
++
++[dev:children]
++db
++www
++lb
+diff -uNr -X ./diffignore ../B03800_08_code/projects/group_vars/all ./projects/group_vars/all
+--- ../B03800_08_code/projects/group_vars/all	2016-04-11 20:47:33.208187856 +0200
++++ ./projects/group_vars/all	2016-04-11 20:47:33.196187856 +0200
+@@ -18,3 +18,4 @@
+       name: fifanews.com
+       port: 8080
+       doc_root: /var/www/fifanews
++env_name: default
+diff -uNr -X ./diffignore ../B03800_08_code/projects/group_vars/dev ./projects/group_vars/dev
+--- ../B03800_08_code/projects/group_vars/dev	1970-01-01 01:00:00.000000000 +0100
++++ ./projects/group_vars/dev	2016-04-11 20:47:33.196187856 +0200
+@@ -0,0 +1 @@
++env_name: dev
+diff -uNr -X ./diffignore ../B03800_08_code/projects/roles/nginx/tasks/configure.yml ./projects/roles/nginx/tasks/configure.yml
+--- ../B03800_08_code/projects/roles/nginx/tasks/configure.yml	2016-04-11 20:47:33.200187856 +0200
++++ ./projects/roles/nginx/tasks/configure.yml	2016-04-11 20:47:33.188187856 +0200
+@@ -4,7 +4,9 @@
+    notify: 
+     - restart nginx service
+  - name: create home page for default site
+-   copy: src=index.html dest=/usr/share/nginx/html/index.html
++   template:
++     src: index.html.j2 
++     dest: /usr/share/nginx/html/index.html
+ 
+  - name: create php virtual hosts
+    template:
+diff -uNr -X ./diffignore ../B03800_08_code/projects/roles/nginx/templates/index.html.j2 ./projects/roles/nginx/templates/index.html.j2
+--- ../B03800_08_code/projects/roles/nginx/templates/index.html.j2	2016-04-11 20:47:33.200187856 +0200
++++ ./projects/roles/nginx/templates/index.html.j2	2016-04-11 20:47:33.188187856 +0200
+@@ -1,5 +1,5 @@
+ <html>
+  <body>
+-   <h1> Welcome to {{ item.value.name }} </h1>
++   <h1> Welcome to {{ env_name }} </h1>
+  </body>
+ </html>
+diff -uNr -X ./diffignore ../B03800_08_code/projects/test/vars.yml ./projects/test/vars.yml
+--- ../B03800_08_code/projects/test/vars.yml	2016-04-11 20:47:33.196187856 +0200
++++ ./projects/test/vars.yml	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+----
+-demo: 
+-  pass: supersecret
+-
