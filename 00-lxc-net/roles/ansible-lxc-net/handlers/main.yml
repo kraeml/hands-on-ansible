@@ -1,0 +1,11 @@
+---
+# handlers file for ansible-lxc-net
+- name: restart lxc-net
+  service:
+    name: lxc-net
+    state: restarted
+
+- name: restart dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted

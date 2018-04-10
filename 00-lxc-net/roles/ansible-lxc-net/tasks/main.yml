@@ -1,0 +1,73 @@
+---
+# tasks file for ansible-lxc-net
+
+- name: Installation von dnsmasq mit Neueinlesen der Paketlisten
+  apt:
+    name: "{{item}}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - dnsmasq
+    - lxc
+    - bridge-utils
+    - dnsutils
+
+- name: Konfigure lxc-net
+  template:
+    dest: "{{item.dest}}"
+    src: "{{item.src}}"
+  notify:
+    - restart lxc-net
+    - restart dnsmasq
+  with_items:
+    - dest: "/etc/default/lxc-net"
+      src: "lxc-net.j2"
+    - dest: "/etc/lxc/dnsmasq.conf"
+      src: "lxc-dnsmasq.conf.j2"
+    - dest: "/etc/dnsmasq.conf"
+      src: "dnsmasq.conf.j2"
+
+- name: Eintrag in hosts für lxc Adresse austauchen
+  lineinfile:
+    path: /etc/hosts
+    line: "{{LXC_ADDR}} {{ansible_hostname}}.{{LXC_DOMAIN}} {{ansible_hostname}}"
+    regexp: '{{LXC_ADDR}} {{ansible_hostname}}\.\w*\s*{{ansible_hostname}}'
+    state: present
+    backrefs: yes
+  notify:
+    - restart dnsmasq
+
+- name: Eintrag in hosts für lxc Adresse
+  lineinfile:
+    path: /etc/hosts
+    line: "{{LXC_ADDR}}   {{ansible_hostname}}.{{LXC_DOMAIN}}   {{ansible_hostname}}"
+    state: present
+    insertafter: '127.0.0.1\s*localhost$'
+  notify:
+    - restart dnsmasq
+
+- name: Eintrag in hosts für vm ändern
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ansible_enp0s3.ipv4.address}}   {{ansible_hostname}}.vm   {{ansible_hostname}}"
+    regexp: '127.*\s*{{ansible_hostname}}\.vm\s*{{ansible_hostname}}'
+    backrefs: yes
+    state: present
+  notify:
+    - restart dnsmasq
+
+- name: Erstellen der LXC Container
+  lxc_container:
+    name: "{{item.name}}"
+    template: ubuntu
+    state: "{{item.state}}"
+  with_items: "{{LXC_CONTAINERS}}"
+
+- name: Einträge der hosts in Container anpassen
+  lineinfile:
+    path: "/var/lib/lxc/{{item.name}}/rootfs/etc/hosts"
+    line: '127.0.1.1   {{item.name}}.{{LXC_DOMAIN}}   {{item.name}}'
+    regexp: '127.0.1.1\s*{{item.name}}$'
+    state: present
+    backrefs: yes
+  with_items: "{{LXC_CONTAINERS}}"
